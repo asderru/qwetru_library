@@ -17,19 +17,14 @@
         
         public $css
             = [
-                '/vendors/bootstrap-5.3.7/css/bootstrap.min.css',
-                'assets/css/meanmenu.min.css',
-                'assets/css/style.css',
-                'assets/css/dark.css',
-                'assets/css/responsive.css',
+                'css/main.min.css',
             ];
         
         public $js
             = [
                 'vendors/jquery.min.js',
                 'vendors/bootstrap-5.3.7/bootstrap.bundle.min.js',
-                'assets/js/meanmenu.min.js',
-                'assets/js/wow.min.js',
-                'assets/js/custom.js',
+                '/assets/js/plugins.js',
+                '/assets/js/script.js',
             ];
     }
