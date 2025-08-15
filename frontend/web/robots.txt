@@ -1,0 +1,47 @@
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: *
+Disallow: /css/
+Disallow: /js/
+Disallow: /auth/
+Disallow: /cabinet/
+Disallow: /cart/
+Disallow: */?s=
+Disallow: *sort=
+Disallow: *view=
+Disallow: *utm=
+Crawl-Delay: 5
+
+User-agent: GoogleBot
+Disallow: /admin/
+Disallow: /css/
+Disallow: /js/
+Disallow: /auth/
+Disallow: /cabinet/
+Disallow: /cart/
+Disallow: */?s=
+Disallow: *sort=
+Disallow: *view=
+Disallow: *utm=
+
+User-agent: Yandex
+Disallow: /admin/
+Disallow: /css/
+Disallow: /js/
+Disallow: /auth/
+Disallow: /cabinet/
+Disallow: /cart/
+Disallow: */?s=
+Disallow: *sort=
+Disallow: *view=
+Disallow: *utm=
+Clean-Param: utm_source&utm_medium&utm_campaign
+Crawl-Delay: 0.5
+
+User-agent: SemrushBot
+Disallow: /
+
+Sitemap: https://qwetru.ru/sitemap.xml
+
+Host: https://qwetru.ru

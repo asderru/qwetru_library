@@ -1,0 +1,44 @@
+{
+  "type": "module",
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scripts/merge-minify.js",
+  "scripts": {
+    "cleanup-css": "node scripts/cleanup-css.mjs",
+    "combine-styles": "node scripts/combine-styles.js",
+    "create-critical-style": "node scripts/create-critical-style.js",
+    "create-favicon": "node scripts/create-favicon.js",
+    "extract-content": "node scripts/extract-content.js",
+    "extract-styles-for-page": "node scripts/extract-styles-for-page.js",
+    "merge-minify": "node scripts/merge-minify.js",
+    "make-critical-lists": "node scripts/make-critical-lists.js",
+    "make-critical-style": "node scripts/make-critical-style.js",
+    "open-urls": "node scripts/open-urls.js",
+    "make_critical_from_html": "node scripts/make_critical_from_html.sh",
+    "open-urls.js": "node scripts/open-urls.js",
+    "optimize-critical": "node scripts/optimize-critical.js",
+    "resize-icons": "node scripts/resize-icons.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp-clean-css": "^4.3.0",
+    "postcss": "^8.4.39",
+    "postcss-cli": "^11.0.0",
+    "postcss-discard-duplicates": "^7.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "glob": "^11.0.3",
+    "ico": "^0.3.3",
+    "jimp": "^0.22.12",
+    "node-fetch": "^3.3.2",
+    "open": "^8.4.0",
+    "png-to-ico": "^2.1.8",
+    "sharp": "^0.32.6",
+    "uncss": "^0.17.3"
+  }
+}

@@ -1,0 +1,2 @@
+var last_scroll_position,new_scroll_position=0,header=document.getElementById("navigator");window.addEventListener("scroll",function(s){last_scroll_position=window.scrollY,new_scroll_position<last_scroll_position&&80<last_scroll_position?(header.classList.remove("slideDown"),header.classList.add("slideUp")):last_scroll_position<new_scroll_position&&(header.classList.remove("slideUp"),header.classList.add("slideDown")),new_scroll_position=last_scroll_position});
+//# sourceMappingURL=main.js.map
