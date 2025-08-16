@@ -2,8 +2,8 @@
     
     namespace frontend\controllers;
     
+    use core\components\ItemSelector;
     use core\edit\entities\Admin\Information;
-    use core\edit\entities\Library\Book;
     use core\edit\useCases\User\VisitManageService;
     use core\helpers\PrintHelper;
     use core\read\arrays\Admin\ContentReader;
@@ -41,6 +41,7 @@
             $module,
             InformationReader $sites,
             ContentReader $reader,
+            AnonsReader $anonses,
             VisitManageService $visitService,
             BreadcrumbsService $breadcrumbsService,
             MetaService $metaService,
@@ -57,6 +58,7 @@
             );
             $this->sites              = $sites;
             $this->reader = $reader;
+            $this->anonses = $anonses;
             $this->visitService = $visitService;
             $this->breadcrumbsService = $breadcrumbsService;
             $this->metaService        = $metaService;
@@ -84,7 +86,6 @@
                 ];
         }
         
-        
         /**
          * @throws \yii\db\Exception
          */
@@ -92,26 +93,21 @@
         {
             $site = $this->sites->getFullPackedSite();
             
-            $mainBooks = BookReader::getMainArray(
-                Book::DEFAULT_FIELDS,
+            $books     = BookReader::getArray(
+                Constant::BOOK_TYPE,
             );
-            
-            $types = $this->getTextTypes();
-            
-            $package = $this->reader->getContentArrayByTypes($types, 4);
-            
+            $bookOfDay = ItemSelector::getItemForDay(
+                $books,
+            );
+            $mainbooks = array_filter($books, function ($book) {
+                return isset($book['status']) && $book['status'] > 3;
+            });
             // Разбиваем массив массивов на отдельные переменные
             $viewData = [
                 'site'      => current($site),
-                'mainBooks' => $mainBooks,
+                'mainbooks' => $mainbooks,
+                'bookOfDay' => $bookOfDay,
             ];
-            
-            foreach ($types as $type) {
-                $typeLabel            = $this->getTypeLabels($type);
-                $viewData[$typeLabel] = $package[$type] ?? [];
-            }
-            
-            // Добавляем текстовый тип
             $viewData['textType'] = self::TEXT_TYPE;
             // Инициализация метаданных и сервисов
             $this->initializeWebPageServices($site);
@@ -207,6 +203,5 @@
                 default                 => 'models',
             };
         }
-        
         
     }

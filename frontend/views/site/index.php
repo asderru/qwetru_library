@@ -1,8 +1,9 @@
 <?php
-    
+
+    use core\helpers\PrintHelper;
     use frontend\assets\AppAsset;
     use yii\web\View;
-    
+
     AppAsset::register($this);
     
     /* @var $this View */
@@ -12,7 +13,8 @@
     /* @var $mainBooks core\edit\entities\Library\Book[] */
     /* @var $pages core\edit\entities\Content\Page[] */
     /* @var $id int */
-    
+
+    PrintHelper::print(get_defined_vars());
 
 ?>
 
@@ -20,6 +22,7 @@
 <section id='billboard'>
 
     <div class='container'>
+        Книга дня
         <div class='row'>
             <div class='col-md-12'>
 
