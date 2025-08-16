@@ -4,16 +4,14 @@
     
     use core\components\ItemSelector;
     use core\edit\entities\Admin\Information;
+    use core\edit\entities\Library\Book;
     use core\edit\useCases\User\VisitManageService;
     use core\helpers\PrintHelper;
-    use core\read\arrays\Admin\ContentReader;
     use core\read\arrays\Admin\InformationReader;
     use core\read\arrays\Library\BookReader;
-    use core\read\arrays\Seo\AnonsReader;
     use core\read\services\BreadcrumbsService;
     use core\read\services\MetaService;
     use core\read\services\SchemaService;
-    use core\tools\Constant;
     use Exception;
     use frontend\assets\Bundles;
     use frontend\controllers\admin\MainController;
@@ -33,15 +31,13 @@
         
         public                    $layout = '@app/views/layouts/main';
         private InformationReader $sites;
-        private ContentReader $reader;
-        private AnonsReader       $anonses;
+        private BookReader $reader;
         
         public function __construct(
             $id,
             $module,
             InformationReader $sites,
-            ContentReader $reader,
-            AnonsReader $anonses,
+            BookReader $reader,
             VisitManageService $visitService,
             BreadcrumbsService $breadcrumbsService,
             MetaService $metaService,
@@ -58,7 +54,6 @@
             );
             $this->sites              = $sites;
             $this->reader = $reader;
-            $this->anonses = $anonses;
             $this->visitService = $visitService;
             $this->breadcrumbsService = $breadcrumbsService;
             $this->metaService        = $metaService;
@@ -93,26 +88,26 @@
         {
             $site = $this->sites->getFullPackedSite();
             
-            $books     = BookReader::getArray(
-                Constant::BOOK_TYPE,
-            );
+            $books     = $this->reader->getLibraryArray(Book::DEFAULT_FIELDS, 3);
+            
             $bookOfDay = ItemSelector::getItemForDay(
                 $books,
             );
-            $mainbooks = array_filter($books, function ($book) {
+            $mainBooks = array_filter($books, function ($book) {
                 return isset($book['status']) && $book['status'] > 3;
             });
             // Разбиваем массив массивов на отдельные переменные
             $viewData = [
                 'site'      => current($site),
-                'mainbooks' => $mainbooks,
+                'mainBooks' => $mainBooks,
                 'bookOfDay' => $bookOfDay,
             ];
             $viewData['textType'] = self::TEXT_TYPE;
+            
             // Инициализация метаданных и сервисов
             $this->initializeWebPageServices($site);
             
-            return $this->render(
+            return $this->renderExpanded(
                 '@app/views/site/index',
                 $viewData,
             );
@@ -159,49 +154,6 @@
                     'index',
                 ],
             );
-        }
-        
-        public function getTextTypes(): array
-        {
-            return [
-                Constant::BOOK_TYPE,
-                Constant::CHAPTER_TYPE,
-                Constant::CATEGORY_TYPE,
-                Constant::POST_TYPE,
-                Constant::PAGE_TYPE,
-                Constant::GROUP_TYPE,
-                Constant::THREAD_TYPE,
-                Constant::SITE_TYPE,
-                Constant::NEWS_TYPE,
-                Constant::AUTHOR_TYPE,
-                Constant::ANONS_TYPE,
-                Constant::GALLERY_TYPE,
-                Constant::REVIEW_TYPE,
-                Constant::FAQ_TYPE,
-                Constant::FOOTNOTE_TYPE,
-            ];
-        }
-        
-        public function getTypeLabels($textType): string
-        {
-            return match ($textType) {
-                Constant::BOOK_TYPE     => 'books',
-                Constant::CHAPTER_TYPE  => 'chapters',
-                Constant::CATEGORY_TYPE => 'categories',
-                Constant::POST_TYPE     => 'posts',
-                Constant::PAGE_TYPE     => 'pages',
-                Constant::GROUP_TYPE    => 'groups',
-                Constant::THREAD_TYPE   => 'threads',
-                Constant::SITE_TYPE     => 'sites',
-                Constant::NEWS_TYPE     => 'news',
-                Constant::AUTHOR_TYPE   => 'authors',
-                Constant::ANONS_TYPE    => 'anonses',
-                Constant::GALLERY_TYPE  => 'galleries',
-                Constant::REVIEW_TYPE   => 'reviews',
-                Constant::FAQ_TYPE      => 'faqs',
-                Constant::FOOTNOTE_TYPE => 'footnotes',
-                default                 => 'models',
-            };
         }
         
     }
